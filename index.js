@@ -4,14 +4,14 @@ let computerScore = 0;
 
 function getHumanChoice() {
     // Get the user answer
+    let isTrue = true;
     
-    
-    while (true) {
+    while (isTrue) {
         let getChoice = prompt("Rock or Paper of Scissors?")
 
         if (getChoice) {
             let upperAnswer = getChoice.toUpperCase()
-        
+            
             switch (upperAnswer) {
                 case "ROCK":
                     return "ROCK";
@@ -57,8 +57,8 @@ function getComputerChoice() {
 
 
 function playRound() {
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
+    let humanSelection = getHumanChoice();
+    let computerSelection = getComputerChoice();
    
 
     // humanChoice === computerChoice mean draw
@@ -108,30 +108,25 @@ function playRound() {
 }
 
 function playGame () {
+    humanScore = 0;
+    computerScore = 0;
+   
     let round = 1;
     while (round <= 5) {
+        console.log(`Round ${round}`)
         playRound();
-        console.log(`Round: ${round}`)
         ++round;
     }
-    if (round = 5) {
-        if (humanScore > computerScore) {
-            console.log("You win!")
-        } else if (humanScore < computerScore) {
-            console.log("You lose!") 
-        } else {
-            console.log("You draw!") 
-    
-        }
+
+    if (humanScore > computerScore) {
+        alert("You win!")
+    } else if (humanScore < computerScore) {
+        alert("You lose!") 
+    } else {
+        alert("You draw!") 
     }
-    
-    
-
-
 }
 
-// console.log(`Human: ${humanSelection}`)
-// console.log(`Computer: ${computerSelection}`)
-
-playGame()
-  
+window.onload = function () {
+    playGame()
+}
