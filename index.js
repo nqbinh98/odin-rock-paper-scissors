@@ -1,39 +1,21 @@
 // set variable for save human and computer scores
 let humanScore = 0;
 let computerScore = 0;
+let gameOver = false;
+const btnSection = document.querySelectorAll(".btnSection");
+const score = document.querySelector(".score")
+const para = document.querySelector(".announce")
+const reset = document.querySelector(".resetBtn")
 
-function getHumanChoice() {
-    // Get the user answer
-    let isTrue = true;
-    
-    while (isTrue) {
-        let getChoice = prompt("Rock or Paper of Scissors?")
-
-        if (getChoice) {
-            let upperAnswer = getChoice.toUpperCase()
-            
-            switch (upperAnswer) {
-                case "ROCK":
-                    return "ROCK";
-                    
-                case "PAPER":
-                    return "PAPER";
-                    
-                case "SCISSORS":
-                    return "SCISSORS";
-                    
-                default:
-                    alert("Error answer");
-                    
-            }
-
-        } else {
-            alert("Error answer");
-
+for (let i = 0; i < btnSection.length; i++) {
+    btnSection[i].addEventListener('click', function(e) {
+        if (!gameOver) {
+            playRound(e.target.id)
         }
-    }
-    
+    })
 }
+
+reset.addEventListener('click', resetGame)
 
 function getComputerChoice() {
     
@@ -56,11 +38,16 @@ function getComputerChoice() {
 }
 
 
-function playRound() {
-    let humanSelection = getHumanChoice();
+function playRound(humanChoice) {
+    let humanSelection = humanChoice.toUpperCase();
     let computerSelection = getComputerChoice();
-   
-
+    
+    if (humanScore >= 5) {
+        resetGame()
+    } else if (computerScore >= 5) {
+        resetGame()
+    }
+    console.log(humanSelection)
     // humanChoice === computerChoice mean draw
     // get humanChoice is the main to check
 
@@ -76,14 +63,15 @@ function playRound() {
                 console.log("You win. Rock beats Scissors!");
                 ++humanScore;
                 break;
-        }     
+        }  
+
     } else if (humanSelection === "PAPER") {
         switch (computerSelection) {
             case "ROCK":
                 console.log("You win. Paper beats Rock!");
-                ++humanScore;
+                ++humanScore;                
                 break;
-            case "SCISSORS":
+                case "SCISSORS":
                 console.log("You lose. Scissors beats Paper!");
                 ++computerScore;
                 break;
@@ -100,33 +88,30 @@ function playRound() {
                 break;
         }
     }
-    
-    console.log(`HumanScore: ${humanScore}`)
-    console.log(`ComputerScore: ${computerScore}`)
-    return humanScore, computerScore;
 
+    score.textContent = `${humanScore} - ${computerScore}`
+
+    // if (humanScore === 5) {
+    //     para.textContent = "Human won";
+    //     // resetGame()
+    // } else if (computerScore === 5) {
+    //     para.textContent = "Computer won"
+    //     // resetGame()
+    // }
+
+    if (humanScore === 5 || computerScore === 5) {
+        gameOver = true;
+        para.textContent = humanScore === 5 ? "Human won!" : "Computer won!"
+
+    }
 }
 
-function playGame () {
+function resetGame () {
     humanScore = 0;
     computerScore = 0;
-   
-    let round = 1;
-    while (round <= 5) {
-        console.log(`Round ${round}`)
-        playRound();
-        ++round;
-    }
-
-    if (humanScore > computerScore) {
-        alert("You win!")
-    } else if (humanScore < computerScore) {
-        alert("You lose!") 
-    } else {
-        alert("You draw!") 
-    }
+    gameOver = false;
+    score.textContent = `${humanScore} - ${computerScore}`
+    para.textContent = "First to 5 wins"
+    
 }
 
-window.onload = function () {
-    playGame()
-}
